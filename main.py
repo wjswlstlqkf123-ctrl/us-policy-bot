@@ -22,11 +22,12 @@ API_CALL_DELAY = 2    # Claude API 호출 간 딜레이 (초)
 _PLACEHOLDER = {"요약 정보 없음", "영향 분석 정보 없음"}
 
 def _is_valid(result: dict) -> bool:
-    """제목·요약·영향 분석이 모두 실질적인 내용을 가질 때만 True."""
+    """제목·날짜·요약·영향 분석이 모두 실질적인 내용을 가질 때만 True."""
     title_ok = bool(result.get("korean_title", "").strip())
+    date_ok = bool(result.get("published", "").strip())
     summary_ok = result.get("summary", "") not in _PLACEHOLDER and len(result.get("summary", "")) > 10
     impact_ok = result.get("korea_impact", "") not in _PLACEHOLDER and len(result.get("korea_impact", "")) > 10
-    return title_ok and summary_ok and impact_ok
+    return title_ok and date_ok and summary_ok and impact_ok
 
 
 def run_pipeline():
@@ -77,9 +78,10 @@ def run_pipeline():
             logger.info(f"전송 완료: [{result['category']}] {article['title'][:60]}")
             time.sleep(API_CALL_DELAY)
         elif result:
-            # 분석 결과는 있지만 내용 미달 — DB에만 기록해 재시도 방지
+            # 날짜 누락 또는 내용 미달 — DB에만 기록해 재시도 방지
             mark_sent(url, article["title"])
-            logger.info(f"내용 미달 스킵: {article['title'][:60]}")
+            reason = "날짜 없음" if not result.get("published", "").strip() else "내용 미달"
+            logger.info(f"발송 제외 [{reason}]: {article['title'][:60]}")
 
     logger.info(f"=== 파이프라인 완료 — 신규 전송: {sent_count}개 / 중복 스킵: {skipped_count}개 ===")
 
