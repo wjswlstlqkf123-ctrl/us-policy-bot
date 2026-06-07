@@ -6,7 +6,7 @@ from collectors.rss import collect_rss
 from collectors.scraper import collect_scraped
 from analyzer import analyze_article
 from notifier import notify_article
-from db import init_db, is_sent, mark_sent
+from db import init_db, is_first_run, is_sent, mark_sent
 
 logging.basicConfig(
     level=logging.INFO,
@@ -38,6 +38,17 @@ def run_pipeline():
     scraped_articles = collect_scraped()
     all_articles = rss_articles + scraped_articles
     logger.info(f"총 수집: {len(all_articles)}개 (RSS {len(rss_articles)} + 스크래핑 {len(scraped_articles)})")
+
+    # 첫 실행: 기존 기사를 모두 DB에만 기록하고 전송하지 않음
+    if is_first_run():
+        seeded = 0
+        for article in all_articles:
+            url = article.get("url", "").strip()
+            if url:
+                mark_sent(url, article["title"])
+                seeded += 1
+        logger.info(f"첫 실행 감지 — 기존 기사 {seeded}개 DB 등록 완료 (전송 생략). 다음 주기부터 신규 기사만 전송합니다.")
+        return
 
     sent_count = 0
     skipped_count = 0

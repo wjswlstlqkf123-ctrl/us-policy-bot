@@ -31,6 +31,16 @@ def is_sent(url: str) -> bool:
     return result is not None
 
 
+def is_first_run() -> bool:
+    """sent_articles 테이블이 비어 있으면 첫 실행으로 판단."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM sent_articles")
+    count = cursor.fetchone()[0]
+    conn.close()
+    return count == 0
+
+
 def mark_sent(url: str, title: str):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
