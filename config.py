@@ -12,7 +12,6 @@ RSS_FEEDS = [
     {"name": "SEC",                "url": "https://www.sec.gov/news/pressreleases.rss"},
     {"name": "White House",        "url": "https://www.whitehouse.gov/news/feed/"},
     {"name": "Congress",           "url": "https://www.congress.gov/rss/most-viewed-bills.xml"},
-    {"name": "NPR Politics",       "url": "https://feeds.npr.org/1014/rss.xml"},
     {"name": "Reuters Business",   "url": "https://feeds.reuters.com/reuters/businessNews"},
     {"name": "AP News",            "url": "https://feeds.apnews.com/rss/topnews"},
 ]

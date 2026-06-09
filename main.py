@@ -4,7 +4,7 @@ import time
 
 from collectors.rss import collect_rss
 from collectors.scraper import collect_scraped
-from analyzer import analyze_article
+from analyzer import analyze_article, classify_article
 from notifier import notify_article
 from db import init_db, is_first_run, is_sent, mark_sent
 
@@ -61,6 +61,12 @@ def run_pipeline():
 
         if is_sent(url):
             skipped_count += 1
+            continue
+
+        # 금융/경제/기술 키워드 없는 일반 정치 뉴스는 API 호출 없이 스킵
+        if classify_article(article["title"], article.get("summary", "")) is None:
+            mark_sent(url, article["title"])
+            logger.info(f"관련 없음 스킵: {article['title'][:60]}")
             continue
 
         result = analyze_article(
