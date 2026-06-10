@@ -8,12 +8,13 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 RSS_FEEDS = [
-    {"name": "Federal Reserve",    "url": "https://www.federalreserve.gov/feeds/press_all.xml"},
-    {"name": "SEC",                "url": "https://www.sec.gov/news/pressreleases.rss"},
-    {"name": "White House",        "url": "https://www.whitehouse.gov/news/feed/"},
-    {"name": "Congress",           "url": "https://www.congress.gov/rss/most-viewed-bills.xml"},
-    {"name": "Reuters Business",   "url": "https://feeds.reuters.com/reuters/businessNews"},
-    {"name": "AP News",            "url": "https://feeds.apnews.com/rss/topnews"},
+    {"name": "Federal Register",  "url": "https://www.federalregister.gov/articles/search.rss?conditions[type][]=PRESDOCU"},
+    {"name": "Federal Reserve",   "url": "https://www.federalreserve.gov/feeds/press_all.xml"},
+    {"name": "SEC",               "url": "https://www.sec.gov/news/pressreleases.rss"},
+    {"name": "White House",       "url": "https://www.whitehouse.gov/news/feed/"},
+    {"name": "Congress",          "url": "https://www.congress.gov/rss/most-viewed-bills.xml"},
+    {"name": "Reuters Business",  "url": "https://feeds.reuters.com/reuters/businessNews"},
+    {"name": "AP News",           "url": "https://feeds.apnews.com/rss/topnews"},
 ]
 
 SCRAPER_TARGETS = [
@@ -25,9 +26,11 @@ SCRAPER_TARGETS = [
 ]
 
 KEYWORDS = {
-    "금융": ["fed", "federal reserve", "interest rate", "sec", "banking", "basel", "fdic", "monetary", "bond", "treasury", "financial"],
-    "경제": ["tariff", "trade", "gdp", "inflation", "commerce", "ustr", "export", "import", "economy", "fiscal", "recession", "supply chain"],
-    "기술": ["ai", "artificial intelligence", "semiconductor", "chips act", "cyber", "data privacy", "ftc", "nist", "technology", "digital", "quantum"],
+    "행정명령": ["executive order", "presidential action", "proclamation", "memorandum"],
+    "투자뉴스": ["investment", "billion", "factory", "plant", "fdi", "announces investment", "pledges", "job creation", "manufacturing"],
+    "금융뉴스": ["federal reserve", "interest rate", "sec", "fdic", "banking", "monetary", "basel", "bond"],
+    "경제뉴스": ["tariff", "trade", "gdp", "inflation", "ustr", "export", "import", "sanctions", "supply chain"],
+    "기술뉴스": ["ai", "semiconductor", "chips", "cyber", "data privacy", "nist", "export control"],
 }
 
 MODEL = "claude-haiku-4-5-20251001"

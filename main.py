@@ -63,8 +63,14 @@ def run_pipeline():
             skipped_count += 1
             continue
 
-        # 금융/경제/기술 키워드 없는 일반 정치 뉴스는 API 호출 없이 스킵
-        if classify_article(article["title"], article.get("summary", "")) is None:
+        # 날짜 없는 기사 스킵
+        if not article.get("published", "").strip():
+            mark_sent(url, article["title"])
+            logger.info(f"날짜 없음 스킵: {article['title'][:60]}")
+            continue
+
+        # 5개 카테고리 외 일반 정치 뉴스는 API 호출 없이 스킵
+        if classify_article(article["title"], article.get("summary", ""), article.get("source", "")) is None:
             mark_sent(url, article["title"])
             logger.info(f"관련 없음 스킵: {article['title'][:60]}")
             continue

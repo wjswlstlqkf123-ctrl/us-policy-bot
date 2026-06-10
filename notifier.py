@@ -12,9 +12,11 @@ if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 CATEGORY_EMOJI = {
-    "금융": "🏦",
-    "경제": "📈",
-    "기술": "💻",
+    "행정명령": "🏛️",
+    "투자뉴스": "💰",
+    "금융뉴스": "🏦",
+    "경제뉴스": "📈",
+    "기술뉴스": "💻",
 }
 MAX_MESSAGE_LENGTH = 4000
 
@@ -25,7 +27,7 @@ def format_message(article: dict) -> str:
     published = article.get("published", "") or "날짜 미상"
 
     lines = [
-        f"{emoji} [{category}정책]",
+        f"{emoji} [{category}]",
         "",
         f"제목: {article['korean_title']}",
         "",
