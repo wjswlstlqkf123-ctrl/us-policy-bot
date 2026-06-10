@@ -33,6 +33,20 @@ KEYWORDS = {
     "기술뉴스": ["ai", "semiconductor", "chips", "cyber", "data privacy", "nist", "export control"],
 }
 
+# 이 키워드 중 하나라도 제목+본문에 매칭되면 스킵 (선거·스캔들·사건사고)
+SKIP_KEYWORDS = [
+    # 선거·투표
+    "ballot", "election day", "senate race", "house race",
+    "primary election", "midterm election", "electoral college",
+    "polling place", "voter turnout", "voter fraud",
+    # 정치인 스캔들·개인 발언
+    "scandal", "impeachment", "indicted", "convicted",
+    "criminal charges", "guilty plea", "hush money",
+    # 사건사고
+    "mass shooting", "gunman",
+    "death toll", "casualties",
+]
+
 MODEL = "claude-haiku-4-5-20251001"
 DB_PATH = "us_policy_bot.db"
 MAX_ARTICLES_PER_FEED = 5
